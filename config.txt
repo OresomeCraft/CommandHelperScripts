@@ -377,6 +377,8 @@ runas(~op, /ma join event)
 #                                                    #
 ######################################################
 
+#Orginally made for use on MCAU (https://github.com/mcau) and adapted for use on OresomeCraft. Good work guys, I know you put A LOT of work into those.
+
 ~Admin/Operator:/ban [$player] [$] = >>>
         if(equals(length($),0),
            assign(@reason,'Banned: No reason specified.') 
