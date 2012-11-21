@@ -61,6 +61,8 @@ msg(color(AQUA)'To join a server type /server ServerName !')
 /m [$player] [$] = /emsg $player $
 /tell [$player] [$] = /emsg $player $
 /donate = /buy
+/me = /eme
+/afk = /eafk
 ######################################################
 #                                                    #
 #  End of Simple Command Aliases                     #
