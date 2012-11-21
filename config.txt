@@ -85,7 +85,6 @@ safe:/atools = >>>
     pgive_item(271,  1)
     pgive_item(345, 1)
     pgive_item(280, 1)
-    set_pinv(array(8: array(type: 357, qty: 1)))
 <<<
 
 /rollback $player $time = /lb rb player $player since $time
