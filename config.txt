@@ -1,4 +1,4 @@
-######################################################
+erver######################################################
 #                                                    #
 #  OresomeCraft CommandHelper Scripts                #
 #                                                    #
@@ -42,15 +42,18 @@ _modlist()
 
 *:/servers = >>>
 
-msg(color(BLUE)'-------------------------------------------------')
-msg(color(BLUE)'Servers on OresomeCraft:')
-msg(color(BLUE)'-------------------------------------------------')
-msg(color(AQUA)'SMP survival | /server smp or smp.oresomecraft.com')
-msg(color(RED)'Battles | /server battle or battle.oresomecraft.com')
-msg(color(GREEN)'PvP | /server pvp or pvp.oresomecraft.com' color(DARKDRED)'[OFFLINE!]')
-msg(color(BLUE)'-------------------------------------------------')
-msg(color(AQUA)'To join a server type /server ServerName !')
+msg(color(8)'-------------------------------------------------')
+msg(color(8)| color(6)'Servers on OresomeCraft:' color(8)'                                   |')
+msg(color(8)'-------------------------------------------------')
+msg(color(8)| color(AQUA)'SMP survival | /server smp or smp.oresomecraft.com')
+msg(color(8)| color(6)'Battles | /server battle or battle.oresomecraft.com')
+msg(color(8)| color(GREEN)'PvP | /server pvp or pvp.oresomecraft.com' color(DARKDRED)'[OFFLINE!]')
+msg(color(8)'-------------------------------------------------')
+msg(color(8)| color(AQUA)'To join a server type /server ServerName !')
+msg(color(8)'-------------------------------------------------')
 <<<
+
+/huntele = msg(You dont need to teleport to an arena to use the hunt! Just go outside and kill those damn monsters!)
 
 *:/realname $player = runas(~op, /realname $player)
 /prefix $player $prefix = /pex user $player prefix $prefix
@@ -152,7 +155,8 @@ run(/claim $)
 #                                                    #
 ######################################################
 
-~Admin/Operator:/removedrops = runas(~op, '//remove item -1')
+#~Admin/Operator:/removedrops = runas(~op, '//remove item -1')
+
 
 ~Operator/~console:/restart [$times=3] = >>>
 
@@ -239,7 +243,6 @@ run(/warp donatorgrinder)
 #                                                    #
 ######################################################
 
-#If you're not Zachoz, would you kindly fuck off.
 
 /sayasop $p $ = >>>
 if(not(equals(player(), 'zachoz')), die('Haha, only Zachoz can use this command bitch!.'))
@@ -279,6 +282,10 @@ for(@times, gte(@times, 1), dec(@times) inc(@ms, 1000),
 /kickd $player $ = >>> 
 if(not(equals(player(), 'zachoz')), die('Haha, only Zachoz can use this command bitch!.'))
 kick($player, $) broadcast(color(red)Player player() has kicked $player for $)
+<<<
+
+~Operator:/silentkick $player $ = >>> 
+kick($player, $)
 <<<
 
 safe:/sayas $p $ = >>>
@@ -377,13 +384,11 @@ runas(~op, /ma join event)
 #                                                    #
 ######################################################
 
-#Orginally made for use on MCAU (https://github.com/mcau) and adapted for use on OresomeCraft. Good work guys, I know you put A LOT of work into those.
-
 ~Admin/Operator:/ban [$player] [$] = >>>
         if(equals(length($),0),
            assign(@reason,'Banned: No reason specified.') 
         ,#else
-            assign(@reason,concat('"',$,'Bans can be appealed at oresomecraft.com!','"'))
+            assign(@reason,concat('"',$,' | Bans can be appealed at oresomecraft.com!','"'))
         )
         _ban('/ban',$player,'forever',@reason)
 <<<
@@ -442,8 +447,15 @@ runas(~op, /ma join event)
     _userhist($player)
 <<<
 
-~Mod/Admin/Operator:/kick $player [$] = >>>
-    _kick($player,concat('"',$,'"'))
+
+
+~Mod/Admin/Operator:/kick [$player] [$] = >>>
+        if(equals(length($),0),
+           assign(@reason,'Kicked: No reason specified.') 
+        ,#else
+            assign(@reason,concat('Kicked:'$))
+        )
+        _kick($player,concat('',@reason,''))
 <<<
 
 ######################################################
@@ -583,6 +595,17 @@ runas(~op, /ma join event)
 #  Disabled commands                                 #
 #                                                    #
 ######################################################
+
+/banip [$] = die(color(RED)'Due to the way that our Hub proxy works everyone connects via 127.0.0.1 (localhost), so banning a users IP will not allow anyone to join!')
+
+/ebanip [$] = die(color(RED)'Due to the way that our Hub proxy works everyone connects via 127.0.0.1 (localhost), so banning a users IP will not allow anyone to join!')
+
+/stop [$] = >>>
+if(not(equals(player(), '~console')), die('Server can only be stopped via console!.'))
+run(/stop)
+
+<<<
+
 
 /spawnmob enderdragon = >>>
  assign(@pinfo, pinfo())
