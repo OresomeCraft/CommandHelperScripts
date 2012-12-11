@@ -1,4 +1,4 @@
-erver######################################################
+######################################################
 #                                                    #
 #  OresomeCraft CommandHelper Scripts                #
 #                                                    #
@@ -11,6 +11,58 @@ erver######################################################
 #  Simple Command Aliases and useful player scripts  #
 #                                                    #
 ######################################################
+
+*:/rules = >>>
+msg(color(6)'-------------'color(a)'OresomeCraft SMP rules'color(6)'-------------')
+msg(color(a)'[1]'color(e)'Dont be a dick, simple enough.')
+msg(color(a)'[2]'color(e)'No spamming, advertising, over swearing or threats!')
+msg(color(a)'[3]'color(e)'No Griefing, no excuses.')
+msg(color(a)'[4]'color(e)'If its not yours dont touch it without permission')
+msg(color(a)'[5]'color(e)'Use common sense, if you have none, leave.')
+msg(color(a)'[6]'color(e)'No hacking or using mods that give you an unfair advantage over other players! E.g. X-Ray, Fly, speed, Nofall, etc. Yes, we can tell if youre trying to use them.')
+msg(color(6)'--------------------------------------------------')
+<<<
+
+*:/help = >>>
+msg(color(6)'------------- OresomeCraft SMP Help --- (1/3) ----')
+msg(color(a)'/rules -'color(e)'View server rules.')
+msg(color(a)'/sethome -'color(e)'Set a home teleport location.')
+msg(color(a)'/home -'color(e)'Teleport to your set home.')
+msg(color(a)'/list -'color(e)'List all online users.')
+msg(color(a)'/motd -'color(e)'Display MOTD')
+msg(color(a)'/back -'color(e)'Go back to your last location before teleport')
+msg(color(a)'/spawn -'color(e)'Go back to spawn point.')
+msg(color(a)'Type'color(e)'/help 2'color(a)'to go to the next help page.')
+msg(color(6)'--------------------------------------------------')
+<<<
+
+*:/help 2 = >>>
+msg(color(6)'------------- OresomeCraft SMP Help --- (2/3) ----')
+msg(color(a)'/tpa -'color(e)'Send a teleport request to a player.')
+msg(color(a)'/tpaccept -'color(e)'Accept a teleport request.')
+msg(color(a)'/tpdeny -'color(e)'Deny a teleport request.')
+msg(color(a)'/warp -'color(e)'Warp to a pre-set warp.')
+msg(color(a)'/mail -'color(e)'Manage your mail inbox.')
+msg(color(a)'/msg -'color(e)'Private message another player.')
+msg(color(a)'/bal -'color(e)'Check your money balance.')
+msg(color(a)'Type'color(e)'/help 3'color(a)'to go to the next help page.')
+msg(color(6)'--------------------------------------------------')
+<<<
+
+*:/help 3 = >>>
+msg(color(6)'------------- OresomeCraft SMP Help --- (3/3) ----')
+msg(color(a)'/pay -'color(e)'Pay a user money..')
+msg(color(a)'/suicide -'color(e)'Nek minut youre dead!')
+msg(color(a)'/ping -'color(e)'PONG! Test server response time.')
+msg(color(a)'/kit -'color(e)'View/get kits containing items.')
+msg(color(a)'/afk -'color(e)'Marks you as AFK. (Away from keyboard).')
+msg(color(a)'/delhome -'color(e)'Delete a set home.')
+msg(color(a)'/gc -'color(e)'View server performance statistics.')
+msg(color(a)'Type'color(e)'/help 4'color(a)'to go to the next help page.')
+msg(color(6)'--------------------------------------------------')
+<<<
+
+*:/help 4 = die(color(RED)'Help page 4 does not exist!')
 
 *:/myregions = >>>
     assign(@pname,pinfo()[0])
@@ -59,7 +111,7 @@ msg(color(8)'-------------------------------------------------')
 /prefix $player $prefix = /pex user $player prefix $prefix
 /creative = /warp creative
 /event = /warp event
-/r [$] = /er $ = 
+/r [$] = /er $
 /msg [$player] [$] = /emsg $player $
 /m [$player] [$] = /emsg $player $
 /tell [$player] [$] = /emsg $player $
@@ -198,7 +250,7 @@ for(@times, gte(@times, 1), dec(@times) inc(@ms, 1000),
 
 ######################################################
 #                                                    #
-#  Donator Commands                                  #
+#  Donator Commands                                  #
 #                                                    #
 ######################################################
 /dtools = /kit dtools
@@ -231,7 +283,7 @@ run(/warp donatorgrinder)
 
 ######################################################
 #                                                    #
-#  End of Donator Commands                           #
+#  End of Donator Commands                           #
 #                                                    #
 ######################################################
 
@@ -239,7 +291,7 @@ run(/warp donatorgrinder)
 
 ######################################################
 #                                                    #
-#  Zachoz' random commands                           #
+#  Zachoz' random commands                           #
 #                                                    #
 ######################################################
 
@@ -298,7 +350,7 @@ chatas(player($p), $)
 
 ######################################################
 #                                                    #
-#  End of Zachoz' random commands                    #
+#  End of Zachoz' random commands                    #
 #                                                    #
 ######################################################
 
@@ -306,7 +358,7 @@ chatas(player($p), $)
 
 ######################################################
 #                                                    #
-#  Potion Effect commands                            #
+#  Potion Effect commands                            #
 #                                                    #
 ######################################################
 
@@ -343,7 +395,7 @@ msg('Use /desonic to remove the effect')
 
 ######################################################
 #                                                    #
-#  End of Potion Effect commands                     #
+#  End of Potion Effect commands                     #
 #                                                    #
 ######################################################
 
@@ -351,7 +403,7 @@ msg('Use /desonic to remove the effect')
 
 ######################################################
 #                                                    #
-#  Mob arena joining scripts                         #
+#  Mob arena joining scripts                         #
 #                                                    #
 ######################################################
 
@@ -373,14 +425,14 @@ runas(~op, /ma join event)
 
 ######################################################
 #                                                    #
-#  End of Mob arena joining scripts                  #
+#  End of Mob arena joining scripts                  #
 #                                                    #
 ######################################################
 
 
 ######################################################
 #                                                    #
-#  Banning and ban recording scripts                 #
+#  Banning and ban recording scripts                 #
 #                                                    #
 ######################################################
 
@@ -460,7 +512,7 @@ runas(~op, /ma join event)
 
 ######################################################
 #                                                    #
-#  End of Banning and ban recording scripts          #
+#  End of Banning and ban recording scripts          #
 #                                                    #
 ######################################################
 
@@ -537,49 +589,49 @@ runas(~op, /ma join event)
 
 #Ignore the # tags made by DragonDrew :P
 
-    assign(@pinfo, pinfo())
-    _bc(Treefarm, concat(array_get(@pinfo,4), ' just replanted the Tree Farm with the /replant command!'))
-    # Replant cooldown in seconds, 60 seconds per minute you dumb shit.
-    assign(@cooldown, 300)
+    assign(@pinfo, pinfo())
+    _bc(Treefarm, concat(array_get(@pinfo,4), ' just replanted the Tree Farm with the /replant command!'))
+    # Replant cooldown in seconds, 60 seconds per minute you dumb shit.
+    assign(@cooldown, 300)
 
 
-    # Ensure the persistent variable exists. If it doesn't, set it to 0.
-    if(is_null(get_value('Treefarm1_lastreset')),
-        store_value('treefarm_lastreset',300)
-    )
+    # Ensure the persistent variable exists. If it doesn't, set it to 0.
+    if(is_null(get_value('Treefarm1_lastreset')),
+        store_value('treefarm_lastreset',300)
+    )
 
 
-    # Checks to see if user is default.
-    # If not than it tells them to fuck off.
-  #  assign(@pinfo, pinfo())
-  #  if(equals(array_get(array_get(@pinfo,9),0), 'default'),
-  #      die('Ask a mod or Member to replant for you <3')
-  #  )
-    
-    # Get our persistent value
-    assign(@lastreset, get_value('Treefarm_lastreset'))
+    # Checks to see if user is default.
+    # If not than it tells them to fuck off.
+  #  assign(@pinfo, pinfo())
+  #  if(equals(array_get(array_get(@pinfo,9),0), 'default'),
+  #      die('Ask a mod or Member to replant for you <3')
+  #  )
+    
+    # Get our persistent value
+    assign(@lastreset, get_value('Treefarm_lastreset'))
 
 
-    # Time is in milliseconds nigger, Divide that shit.
-    if(@lastreset + @cooldown > time() / 1000,
-        # then
-        msg(concat('[', Error, ']', ' Less than 5 minutes since last replant.'))
-        assign(@timeleft, subtract(add(@lastreset, @cooldown), divide(time(),1000)))
-        die(concat('[', Error, '] ', @timeleft, ' seconds to go'))
-    )
+    # Time is in milliseconds nigger, Divide that shit.
+    if(@lastreset + @cooldown > time() / 1000,
+        # then
+        msg(concat('[', Error, ']', ' Less than 5 minutes since last replant.'))
+        assign(@timeleft, subtract(add(@lastreset, @cooldown), divide(time(),1000)))
+        die(concat('[', Error, '] ', @timeleft, ' seconds to go'))
+    )
 
 
-    # Saves the current time() in Treefarm_lastreset 
-    store_value('Treefarm_lastreset', time() / 1000)
+    # Saves the current time() in Treefarm_lastreset 
+    store_value('Treefarm_lastreset', time() / 1000)
 
 
-    # Selects the Farm region, Pastes that shit.
+    # Selects the Farm region, Pastes that shit.
     runas('~op', '/warp treefarm')
-    runas('~op', '//schem load TreeFarmSchem')
+    runas('~op', '//schem load TreeFarmSchem')
     runas('~op', '//paste')
     runas('~op', '/back')
 
-    # Broadcasts to tell the world who is the mother fucking boss.
+    # Broadcasts to tell the world who is the mother fucking boss.
 <<<
 
 ######################################################
