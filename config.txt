@@ -254,7 +254,6 @@ for(@times, gte(@times, 1), dec(@times) inc(@ms, 1000),
 #                                                    #
 ######################################################
 /dtools = /kit dtools
-/donatorbroadcast $user = _bc('Donator', $user is now a donator!)
 /itools = /kit itools
 
 *:/grinder = >>>
@@ -274,7 +273,7 @@ if(not(or(array_contains(@pinfo[9],Mod), array_contains(@pinfo[9],Admin), array_
 run(/warp donatorgrinder)
 <<<
 
-~VIP/Donator:/chest = runas('~op','/enderchest')
+/chest = /enderchest
 /craftingtable = /workbench
 # /furnace = /virtualpack f
 # /brewingstand = /virtualpack b
@@ -434,6 +433,11 @@ runas(~op, /ma join event)
 #                                                    #
 #  Banning and ban recording scripts                 #
 #                                                    #
+# Ban recording scripts originally made by lokulin   #
+# (https://github.com/lokulin)                       #
+# and slightly modified for use by OresomeCraft.     #####
+# Scripts originally forked from https://github.com/mcau #
+#                                                    #####
 ######################################################
 
 ~Admin/Operator:/ban [$player] [$] = >>>
@@ -539,14 +543,15 @@ runas(~op, /ma join event)
         assign(@timeleft, subtract(add(@lastreset, @cooldown), divide(time(),1000)))
         die(concat('[', Error, '] ', @timeleft, ' seconds to go'))
     )
-    assign(@pinfo, pinfo())
-    _bc(Spleef, concat(array_get(@pinfo,4), ' has just reset the spleef arena with /fixspleef!'))
+    
 
     store_value('spleef1_lastreset', divide(time(),1000))
-    runas('~op', '/warp spleef')
-    runas('~op', '/region select spleeffloor')
-    runas('~op', '//replace 00 80')
-    runas('~op', '/back')
+    sudo('/warp spleef')
+    sudo('/region select spleeffloor')
+    sudo('//replace 00 80')
+    sudo('/back')
+assign(@pinfo, pinfo())
+    _bc(Spleef, concat(array_get(@pinfo,4), ' has just reset the spleef arena with /fixspleef!'))
 
 <<<
 
@@ -589,8 +594,7 @@ runas(~op, /ma join event)
 
 #Ignore the # tags made by DragonDrew :P
 
-    assign(@pinfo, pinfo())
-    _bc(Treefarm, concat(array_get(@pinfo,4), ' just replanted the Tree Farm with the /replant command!'))
+
     # Replant cooldown in seconds, 60 seconds per minute you dumb shit.
     assign(@cooldown, 300)
 
@@ -623,13 +627,14 @@ runas(~op, /ma join event)
 
     # Saves the current time() in Treefarm_lastreset 
     store_value('Treefarm_lastreset', time() / 1000)
-
+    assign(@pinfo, pinfo())
+    _bc(Treefarm, concat(array_get(@pinfo,4), ' just replanted the Tree Farm with the /replant command!'))
 
     # Selects the Farm region, Pastes that shit.
-    runas('~op', '/warp treefarm')
-    runas('~op', '//schem load TreeFarmSchem')
-    runas('~op', '//paste')
-    runas('~op', '/back')
+    sudo('/warp treefarm')
+    sudo('//schem load TreeFarmSchem')
+    sudo('//paste')
+    sudo('/back')
 
     # Broadcasts to tell the world who is the mother fucking boss.
 <<<
