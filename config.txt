@@ -12,6 +12,20 @@
 #                                                    #
 ######################################################
 
+*:/servers = >>>
+
+msg(color(8)'-------------------------------------------------')
+msg(color(8)| color(6)'Servers on OresomeCraft:' color(8)'    |')
+msg(color(8)'-------------------------------------------------')
+msg(color(8)| color(AQUA)'SMP survival | /smp or smp.oresomecraft.com')
+msg(color(8)| color(6)'Battles | /battle or battle.oresomecraft.com')
+msg(color(8)| color(GREEN)'PvP | /pvp or pvp.oresomecraft.com')
+msg(color(8)| color(c)'Hub | /hub or hub.oresomecraft.com')
+msg(color(8)'-------------------------------------------------')
+msg(color(8)| color(AQUA)'To join a server type /<ServerName> !')
+msg(color(8)'-------------------------------------------------')
+<<<
+
 *:/rules = >>>
 msg(color(6)'-------------'color(a)'OresomeCraft SMP rules'color(6)'-------------')
 msg(color(a)'[1]'color(e)'Dont be a dick, simple enough.')
@@ -79,6 +93,36 @@ msg(color(6)'--------------------------------------------------')
       msg('Your regions are:' array_implode(@uregions))
     )
 <<<
+
+
+*:/smp = >>>
+    @ba = byte_array()
+    ba_put_bytes(@ba, string_get_bytes('smp'))
+    msg(color(6)'Teleporting to SMP server!')
+    send_plugin_message(player(), 'RubberBand', @ba)
+<<<
+
+*:/battle = >>>
+    @ba = byte_array()
+    ba_put_bytes(@ba, string_get_bytes('battle'))
+    msg(color(6)'Teleporting to Battle server!')
+    send_plugin_message(player(), 'RubberBand', @ba)
+<<<
+
+*:/hub = >>>
+    @ba = byte_array()
+    ba_put_bytes(@ba, string_get_bytes('hub'))
+    msg(color(6)'Teleporting to hub server!')
+    send_plugin_message(player(), 'RubberBand', @ba)
+<<<
+
+*:/infection = >>>
+    @ba = byte_array()
+    ba_put_bytes(@ba, string_get_bytes('infection'))
+    msg(color(6)'Teleporting to Infection server!')
+    send_plugin_message(player(), 'RubberBand', @ba)
+<<<
+
 *:/stafflist = >>>
 _modlist()
 <<<
@@ -92,18 +136,6 @@ _modlist()
 _modlist()
 <<<
 
-*:/servers = >>>
-
-msg(color(8)'-------------------------------------------------')
-msg(color(8)| color(6)'Servers on OresomeCraft:' color(8)'                                   |')
-msg(color(8)'-------------------------------------------------')
-msg(color(8)| color(AQUA)'SMP survival | /server smp or smp.oresomecraft.com')
-msg(color(8)| color(6)'Battles | /server battle or battle.oresomecraft.com')
-msg(color(8)| color(GREEN)'PvP | /server pvp or pvp.oresomecraft.com' color(DARKDRED)'[OFFLINE!]')
-msg(color(8)'-------------------------------------------------')
-msg(color(8)| color(AQUA)'To join a server type /server ServerName !')
-msg(color(8)'-------------------------------------------------')
-<<<
 
 /huntele = msg(You dont need to teleport to an arena to use the hunt! Just go outside and kill those damn monsters!)
 
@@ -112,9 +144,9 @@ msg(color(8)'-------------------------------------------------')
 /creative = /warp creative
 /event = /warp event
 /r [$] = /er $
-/msg [$player] [$] = /emsg $player $
-/m [$player] [$] = /emsg $player $
-/tell [$player] [$] = /emsg $player $
+/msg [$player] [$] = /m $player $
+/m [$player] [$] = /m $player $
+/tell [$player] [$] = /m $player $
 /donate = /buy
 /me = /eme
 /afk = /eafk
@@ -212,10 +244,11 @@ run(/claim $)
 
 ~Operator/~console:/restart [$times=3] = >>>
 
-runas(~console, '/say ** Restarting Server **')
+runas(~console, '/say ** Restarting Server and migrating users to Hub! **')
+runas(~console, '/say ** There is no need to disconnect! **')
 
 proc(_bc, @label, @str,
-    broadcast(concat(color(yellow), '[', color(gold), 'Server Restarting in:', color(yellow), '] ', color(white), @str))
+    broadcast(concat(color(yellow), '[', color(gold), 'Server Restarting and migrating users to Hub in:', color(yellow), '] ', color(white), @str))
 )
 
 assign(@limit, 100)
@@ -228,15 +261,23 @@ for(@times, gte(@times, 1), dec(@times) inc(@ms, 1000),
     set_timeout(@ms, closure(_bc($name, @times)))
     if(@times == '1',
         inc(@ms, 1000)
+        set_timeout(@ms,closure(runas(~console, '/sendall hub')))
         set_timeout(@ms,closure(runas(~console, '/save-all')))
         set_timeout(@ms,closure(runas(~console, '/ma force end event')))
-        set_timeout(@ms,closure(runas(~console, '/kickall Restarting Server! Come back in less than 30 seconds!')))
         set_timeout(@ms,closure(runas(~console, '/stop')))
         
     )
 
 
 )
+
+<<<
+
+/stop [$] = >>>
+if(not(equals(player(), '~console')), die('Server can only be stopped via console!.'))
+run('/say Stopping server, migrating all users to Hub!')
+run('/sendall hub')
+run('/stop')
 
 <<<
 
@@ -298,9 +339,9 @@ run(/warp donatorgrinder)
 /sayasop $p $ = >>>
 if(not(equals(player(), 'zachoz')), die('Haha, only Zachoz can use this command bitch!.'))
 if(is_null(player($p)), 'Could not find that player.')
-runas(~console, /op $p)
+sudo(/op $p)
 chatas(player($p), $)
-runas(~console, /deop $p)
+sudo(/deop $p)
 tmsg($p, color(GREEN)You have been forced to run the command'"'$'"'by player'"'player()'"'as an Operator!)
 <<<
 
@@ -411,9 +452,9 @@ msg('Use /desonic to remove the effect')
     _bc(Mob Arena, concat(array_get(@pinfo,4), ' has just joined the mob arena!'))
 
 run(/warp mobarena)
-runas(~op, /gamemode 0)
-runas(~op, /god player() off)
-runas(~op, /ma join event)
+sudo(/gamemode 0)
+sudo(/god player() off)
+run('/ma join event')
 <<<
 
 
@@ -546,12 +587,15 @@ runas(~op, /ma join event)
     
 
     store_value('spleef1_lastreset', divide(time(),1000))
+assign(@pinfo, pinfo())
+    _bc(Spleef, concat(array_get(@pinfo,4), ' has just reset the spleef arena with /fixspleef!'))
+
     sudo('/warp spleef')
     sudo('/region select spleeffloor')
     sudo('//replace 00 80')
     sudo('/back')
-assign(@pinfo, pinfo())
-    _bc(Spleef, concat(array_get(@pinfo,4), ' has just reset the spleef arena with /fixspleef!'))
+
+
 
 <<<
 
@@ -577,14 +621,14 @@ assign(@pinfo, pinfo())
     _bc(Connect Four, concat(array_get(@pinfo,4), ' has just reset the connect four game with /fixconnect4!'))
 
     store_value('connect4_lastreset', divide(time(),1000))
-    runas(~op, '/warp connect4')
-    runas(~op, '/region select connect4')
-    runas(~op, '//set 00') 
-    runas(~op, '/region select connect4gravel')
-    runas(~op, '//set 13')
-    runas(~op, '/region select connect4sand')
-    runas(~op, '//set 12')
-    runas(~op, '/back')
+    sudo('/warp connect4')
+    sudo('/region select connect4')
+    sudo('//set 00') 
+    sudo('/region select connect4gravel')
+    sudo('//set 13')
+    sudo('/region select connect4sand')
+    sudo('//set 12')
+    sudo('/back')
 
 <<<
 
@@ -617,12 +661,12 @@ assign(@pinfo, pinfo())
 
 
     # Time is in milliseconds nigger, Divide that shit.
-    if(@lastreset + @cooldown > time() / 1000,
-        # then
-        msg(concat('[', Error, ']', ' Less than 5 minutes since last replant.'))
-        assign(@timeleft, subtract(add(@lastreset, @cooldown), divide(time(),1000)))
-        die(concat('[', Error, '] ', @timeleft, ' seconds to go'))
-    )
+    #if(@lastreset + @cooldown > time() / 1000,
+    #    # then
+    #    msg(concat('[', Error, ']', ' Less than 5 minutes since last replant.'))
+    #    assign(@timeleft, subtract(add(@lastreset, @cooldown), divide(time(),1000)))
+    #    die(concat('[', Error, '] ', @timeleft, ' seconds to go'))
+    #)
 
 
     # Saves the current time() in Treefarm_lastreset 
@@ -657,11 +701,7 @@ assign(@pinfo, pinfo())
 
 /ebanip [$] = die(color(RED)'Due to the way that our Hub proxy works everyone connects via 127.0.0.1 (localhost), so banning a users IP will not allow anyone to join!')
 
-/stop [$] = >>>
-if(not(equals(player(), '~console')), die('Server can only be stopped via console!.'))
-run(/stop)
 
-<<<
 
 
 /spawnmob enderdragon = >>>
