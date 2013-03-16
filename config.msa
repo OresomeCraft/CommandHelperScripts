@@ -1,0 +1,739 @@
+######################################################
+#                                                    #
+#  OresomeCraft CommandHelper Scripts                #
+#                                                    #
+######################################################
+
+#------------------------------------------------------------------------
+
+######################################################
+#                                                    #
+#  Simple Command Aliases and useful player scripts  #
+#                                                    #
+######################################################
+
+*:/servers = >>>
+
+msg(color(8)'-------------------------------------------------')
+msg(color(8)| color(6)'Servers on OresomeCraft:' color(8)'    |')
+msg(color(8)'-------------------------------------------------')
+msg(color(8)| color(AQUA)'SMP survival | /smp or smp.oresomecraft.com')
+msg(color(8)| color(6)'Battles | /battle or battle.oresomecraft.com')
+msg(color(8)| color(GREEN)'PvP | /pvp or pvp.oresomecraft.com')
+msg(color(8)| color(c)'Hub | /hub or hub.oresomecraft.com')
+msg(color(8)'-------------------------------------------------')
+msg(color(8)| color(AQUA)'To join a server type /<ServerName> !')
+msg(color(8)'-------------------------------------------------')
+<<<
+
+*:/rules = >>>
+msg(color(6)'-------------'color(a)'OresomeCraft SMP rules'color(6)'-------------')
+msg(color(a)'[1]'color(e)'Dont be a dick, simple enough.')
+msg(color(a)'[2]'color(e)'No spamming, advertising, over swearing or threats!')
+msg(color(a)'[3]'color(e)'No Griefing, no excuses.')
+msg(color(a)'[4]'color(e)'If its not yours dont touch it without permission')
+msg(color(a)'[5]'color(e)'Use common sense, if you have none, leave.')
+msg(color(a)'[6]'color(e)'No hacking or using mods that give you an unfair advantage over other players! E.g. X-Ray, Fly, speed, Nofall, etc. Yes, we can tell if youre trying to use them.')
+msg(color(6)'--------------------------------------------------')
+<<<
+
+*:/help = >>>
+msg(color(6)'------------- OresomeCraft SMP Help --- (1/3) ----')
+msg(color(a)'/rules -'color(e)'View server rules.')
+msg(color(a)'/sethome -'color(e)'Set a home teleport location.')
+msg(color(a)'/home -'color(e)'Teleport to your set home.')
+msg(color(a)'/list -'color(e)'List all online users.')
+msg(color(a)'/motd -'color(e)'Display MOTD')
+msg(color(a)'/back -'color(e)'Go back to your last location before teleport')
+msg(color(a)'/spawn -'color(e)'Go back to spawn point.')
+msg(color(a)'Type'color(e)'/help 2'color(a)'to go to the next help page.')
+msg(color(6)'--------------------------------------------------')
+<<<
+
+*:/help 2 = >>>
+msg(color(6)'------------- OresomeCraft SMP Help --- (2/3) ----')
+msg(color(a)'/tpa -'color(e)'Send a teleport request to a player.')
+msg(color(a)'/tpaccept -'color(e)'Accept a teleport request.')
+msg(color(a)'/tpdeny -'color(e)'Deny a teleport request.')
+msg(color(a)'/warp -'color(e)'Warp to a pre-set warp.')
+msg(color(a)'/mail -'color(e)'Manage your mail inbox.')
+msg(color(a)'/msg -'color(e)'Private message another player.')
+msg(color(a)'/bal -'color(e)'Check your money balance.')
+msg(color(a)'Type'color(e)'/help 3'color(a)'to go to the next help page.')
+msg(color(6)'--------------------------------------------------')
+<<<
+
+*:/help 3 = >>>
+msg(color(6)'------------- OresomeCraft SMP Help --- (3/3) ----')
+msg(color(a)'/pay -'color(e)'Pay a user money..')
+msg(color(a)'/suicide -'color(e)'Nek minut youre dead!')
+msg(color(a)'/ping -'color(e)'PONG! Test server response time.')
+msg(color(a)'/kit -'color(e)'View/get kits containing items.')
+msg(color(a)'/afk -'color(e)'Marks you as AFK. (Away from keyboard).')
+msg(color(a)'/delhome -'color(e)'Delete a set home.')
+msg(color(a)'/gc -'color(e)'View server performance statistics.')
+msg(color(a)'Type'color(e)'/help 4'color(a)'to go to the next help page.')
+msg(color(6)'--------------------------------------------------')
+<<<
+
+*:/help 4 = die(color(RED)'Help page 4 does not exist!')
+
+*:/myregions = >>>
+    assign(@pname,pinfo()[0])
+    assign(@regions,sk_all_regions(pworld()))
+    assign(@uregions, array())
+    foreach(@regions,@region,
+       assign(@rowners,sk_region_info(@region, pworld()))
+       if(array_contains(@rowners[1],@pname),
+          array_push(@uregions,@region)
+       )
+    )
+    if(equals(array_size(@uregions),0),
+      msg(You have no regions),
+      msg('Your regions are:' array_implode(@uregions))
+    )
+<<<
+
+
+*:/smp = >>>
+    @ba = byte_array()
+    ba_put_bytes(@ba, string_get_bytes('smp'))
+    msg(color(6)'Teleporting to SMP server!')
+    send_plugin_message(player(), 'RubberBand', @ba)
+<<<
+
+*:/battle = >>>
+    @ba = byte_array()
+    ba_put_bytes(@ba, string_get_bytes('battle'))
+    msg(color(6)'Teleporting to Battle server!')
+    send_plugin_message(player(), 'RubberBand', @ba)
+<<<
+
+*:/hub = >>>
+    @ba = byte_array()
+    ba_put_bytes(@ba, string_get_bytes('hub'))
+    msg(color(6)'Teleporting to hub server!')
+    send_plugin_message(player(), 'RubberBand', @ba)
+<<<
+
+*:/infection = >>>
+    @ba = byte_array()
+    ba_put_bytes(@ba, string_get_bytes('infection'))
+    msg(color(6)'Teleporting to Infection server!')
+    send_plugin_message(player(), 'RubberBand', @ba)
+<<<
+
+*:/stafflist = >>>
+_modlist()
+<<<
+*:/modlist = >>>
+_modlist()
+<<<
+*:/adminlist = >>>
+_modlist()
+<<<
+*:/staff = >>>
+_modlist()
+<<<
+
+
+/huntele = msg(You dont need to teleport to an arena to use the hunt! Just go outside and kill those damn monsters!)
+
+*:/realname $player = runas(~op, /realname $player)
+/prefix $player $prefix = /pex user $player prefix $prefix
+/creative = /warp creative
+/event = /warp event
+/r [$] = /er $
+/msg [$player] [$] = /m $player $
+/m [$player] [$] = /m $player $
+/tell [$player] [$] = /m $player $
+/donate = /buy
+/me = /eme
+/afk = /eafk
+/spawn = /warp spawn
+######################################################
+#                                                    #
+#  End of Simple Command Aliases                     #
+#                                                    #
+######################################################
+
+#------------------------------------------------------------------------
+
+######################################################
+#                                                    #
+#  Moderator/utility Commands                        #
+#                                                    #
+######################################################
+
+safe:/atools = >>>
+    assign(@pinfo, pinfo())
+    if(not(or(array_contains(@pinfo[9],Mod), array_contains(@pinfo[9],Admin), array_contains(@pinfo[9],Operator))),
+        die(color(RED)Only server staff can use this command!)
+    )
+    run(/ci)
+    pgive_item(95,  1)
+    pgive_item(271,  1)
+    pgive_item(345, 1)
+    pgive_item(280, 1)
+<<<
+
+/rollback $player $time = /lb rb player $player since $time
+/rollbackarea $player $area $time = /lb rollback player $player since $time area $area
+
+~Mod/Admin/Operator:/brand $user $brand =  >>>
+    /pex user $user prefix concat('&e[', $brand, ']&7')
+    _bc('Branding', $user has been branded $brand )
+<<<
+
+~Mod/Admin/Operator:/unbrand $user = >>>
+        runas(~op, sconcat('/pex user',$user,'prefix ""'))
+    _bc('Branding', $user has been unbranded)
+<<<
+
+~Mod/Admin/Operator:/promote $user = /pex promote $user _bc('Promotion', $user has been Promoted )
+
+~Mod/Admin/Operator:/fixsign $line $ = >>>
+    assign(@pinfo, pinfo())
+    if(not(or(array_contains(@pinfo[9],Mod), array_contains(@pinfo[9],Admin), array_contains(@pinfo[9],Operator))),
+        die(color(c)You do not have permission to use this command!)
+    )
+    if(not(is_integer($line)),
+        die($line should be a line number)
+    )
+    assign(@lineno, $line)
+    dec(@lineno)
+    if(or(gte($line,5),lte($line,0)),
+        die(Line number $line should be between 1 and 4)
+    )
+    assign(@loc, pcursor())
+    if(not(is_sign_at(@loc)),
+        die('Your crosshairs are not looking at a sign. Sorry.')
+    )
+    assign(@text, get_sign_text(@loc))
+    array_set(@text, @lineno, $)
+    set_sign_text(@loc, @text)
+<<<
+
+~Admin/Operator:/fakeop $player = tmsg($player, color(yellow)'You are now op!')
+
+~Mod/Admin/Operator:/vd = /vanish \ /vanish toggle nochat \ /vanish toggle nointeract
+
+
+~Mod/Admin/Operator:/cc $ = >>>
+run(/check $)
+run(/claim $)
+<<<
+
+
+
+######################################################
+#                                                    #
+#  End of Moderation/utility Commands                #
+#                                                    #
+######################################################
+
+#------------------------------------------------------------------------
+
+######################################################
+#                                                    #
+#  Administrative Commands                           #
+#                                                    #
+######################################################
+
+#~Admin/Operator:/removedrops = runas(~op, '//remove item -1')
+
+
+~Operator/~console:/restart [$times=3] = >>>
+
+runas(~console, '/say ** Restarting Server and migrating users to Hub! **')
+runas(~console, '/say ** There is no need to disconnect! **')
+
+proc(_bc, @label, @str,
+    broadcast(concat(color(yellow), '[', color(gold), 'Server Restarting and migrating users to Hub in:', color(yellow), '] ', color(white), @str))
+)
+
+assign(@limit, 100)
+ 
+
+assign(@times, $times)
+assign(@ms, 1000)
+ 
+for(@times, gte(@times, 1), dec(@times) inc(@ms, 1000),
+    set_timeout(@ms, closure(_bc($name, @times)))
+    if(@times == '1',
+        inc(@ms, 1000)
+        set_timeout(@ms,closure(runas(~console, '/sendall hub')))
+        set_timeout(@ms,closure(runas(~console, '/save-all')))
+        set_timeout(@ms,closure(runas(~console, '/ma force end event')))
+        set_timeout(@ms,closure(runas(~console, '/stop')))
+        
+    )
+
+
+)
+
+<<<
+
+/stop [$] = >>>
+if(not(equals(player(), '~console')), die('Server can only be stopped via console!.'))
+run('/say Stopping server, migrating all users to Hub!')
+run('/sendall hub')
+run('/stop')
+
+<<<
+
+######################################################
+#                                                    #
+#  End of Administrative Commands                    #
+#                                                    #
+######################################################
+
+#------------------------------------------------------------------------
+
+######################################################
+#                                                    #
+#  Donator Commands                                  #
+#                                                    #
+######################################################
+/dtools = /kit dtools
+/itools = /kit itools
+
+*:/grinder = >>>
+assign(@pinfo, pinfo())
+if(not(or(array_contains(@pinfo[9],VIP), array_contains(@pinfo[9],Donator))),
+        die(, color(red),'Only Donators can use this grinder! For information about donating visit our website at http://oresomecraft.com !')
+)
+run('/warp DonatorGrinder')
+
+<<<
+
+*:/warp donatorgrinder = >>>
+assign(@pinfo, pinfo())
+if(not(or(array_contains(@pinfo[9],Mod), array_contains(@pinfo[9],Admin), array_contains(@pinfo[9],Operator))),
+        die(, color(red),'Admins or Mods can use this warp! If you are a Donator type /grinder')
+)
+run(/warp donatorgrinder)
+<<<
+
+/chest = /enderchest
+/craftingtable = /workbench
+# /furnace = /virtualpack f
+# /brewingstand = /virtualpack b
+# /enchantmenttable = /virtualpack e
+# /uncrafter = /virtualpack uc
+
+######################################################
+#                                                    #
+#  End of Donator Commands                           #
+#                                                    #
+######################################################
+
+#------------------------------------------------------------------------
+
+######################################################
+#                                                    #
+#  Zachoz' random commands                           #
+#                                                    #
+######################################################
+
+
+/sayasop $p $ = >>>
+if(not(equals(player(), 'zachoz')), die('Haha, only Zachoz can use this command bitch!.'))
+if(is_null(player($p)), 'Could not find that player.')
+sudo(/op $p)
+chatas(player($p), $)
+sudo(/deop $p)
+tmsg($p, color(GREEN)You have been forced to run the command'"'$'"'by player'"'player()'"'as an Operator!)
+<<<
+
+
+~Operator:/countdown [$times=3] = >>>
+
+proc(_bc, @label, @str,
+    broadcast(concat(color(yellow), '[', color(gold), Countdown, color(yellow), '] ', color(white), @str))
+)
+#editable vars:
+assign(@limit, 100)
+ 
+#dynamic vars, dont edit
+assign(@times, $times)
+assign(@ms, 1000)
+ 
+#make it quicker!
+if(@times > @limit, die(color(red).'['.color(gold).$name.color(red).'] '.color(red).'Make the countdown quicker!'))
+#the countdown
+for(@times, gte(@times, 1), dec(@times) inc(@ms, 1000),
+    set_timeout(@ms, closure(_bc($name, @times)))
+    if(@times == '1',
+        inc(@ms, 1000
+    )
+)
+)
+
+<<<
+
+/kickd $player $ = >>> 
+if(not(equals(player(), 'zachoz')), die('Haha, only Zachoz can use this command bitch!.'))
+kick($player, $) broadcast(color(red)Player player() has kicked $player for $)
+<<<
+
+~Operator:/silentkick $player $ = >>> 
+kick($player, $)
+<<<
+
+safe:/sayas $p $ = >>>
+if(not(equals(player(), 'zachoz')), die('Haha, only Zachoz can use this command bitch!.'))
+if(is_null(player($p)), 'Could not find that player.')
+chatas(player($p), $)
+<<<
+
+/op $player = die(color(c)'Operators may only be edited via the ops.txt file!')
+
+######################################################
+#                                                    #
+#  End of Zachoz' random commands                    #
+#                                                    #
+######################################################
+
+#------------------------------------------------------------------------
+
+######################################################
+#                                                    #
+#  Potion Effect commands                            #
+#                                                    #
+######################################################
+
+
+/confuse $player = set_peffect($player, 9, 30, 30) 
+/blind $player = set_peffect($player, 15, 30, 30) 
+/jumpboost $player = set_peffect($player, 8, 30, 30) 
+/blind $player $time = set_peffect($player, 15, 30, $time) 
+
+~VIP/Donator:/blind = set_peffect(player(), 15, 30, 30) 
+
+~VIP/Donator:/confuse = >>>
+set_peffect(player(), 9, 30, 30) 
+msg('Use /deconfuse to get rid of the effect!')
+<<<
+
+*:/deconfuse = set_peffect(player(), 9, 0, 0) 
+
+~Mod/Admin/Operator:/pjumpboost $time = set_peffect(player(), 8, 50, $time) 
+~Mod/Admin/Operator:/pblind $time = set_peffect(player(), 15, 30, $time) 
+~Mod/Admin/Operator:/pconfuse $time = set_peffect(player(), 9, 30, $time) 
+
+~Mod/Admin/Operator:/speed = set_peffect(player(), 1, 1, 900) 
+~Mod/Admin/Operator:/speedness = set_peffect(player(), 1, 7, 900)
+
+
+~VIP/Donator/Mod/Admin/Operator:/sonic = >>> 
+set_peffect(player(), 1, 10, 900)
+msg('Use /desonic to remove the effect')
+<<<
+
+~VIP/Donator/Mod/Admin/Operator:/desonic = set_peffect(player(), 1, 10, 0)
+~Mod/Admin/Operator:/sonic $user = set_peffect($user, 1, 10, 30)
+
+######################################################
+#                                                    #
+#  End of Potion Effect commands                     #
+#                                                    #
+######################################################
+
+#------------------------------------------------------------------------
+
+######################################################
+#                                                    #
+#  Mob arena joining scripts                         #
+#                                                    #
+######################################################
+
+*:/ma join = >>>
+    assign(@pinfo, pinfo())
+    _bc(Mob Arena, concat(array_get(@pinfo,4), ' has just joined the mob arena!'))
+
+run(/warp mobarena)
+sudo(/gamemode 0)
+sudo(/god player() off)
+run('/ma join event')
+<<<
+
+
+*:/ma j = call_alias(/ma join)
+*:/ma join world = call_alias(/ma join)
+*:/ma join default = call_alias(/ma join)
+*:/ma join Event = call_alias(/ma join)
+
+######################################################
+#                                                    #
+#  End of Mob arena joining scripts                  #
+#                                                    #
+######################################################
+
+
+######################################################
+#                                                    #
+#  Banning and ban recording scripts                 #
+#                                                    #
+# Ban recording scripts originally made by lokulin   #
+# (https://github.com/lokulin)                       #
+# and slightly modified for use by OresomeCraft.     #####
+# Scripts originally forked from https://github.com/mcau #
+#                                                    #####
+######################################################
+
+~Admin/Operator:/ban [$player] [$] = >>>
+        if(equals(length($),0),
+           assign(@reason,'Banned: No reason specified.') 
+        ,#else
+            assign(@reason,concat(color(c)'"',$,'"'' 'color(6)'|'color(a)' Bans can be appealed at oresomecraft.com!',''))
+        )
+        _ban('/ban',$player,'forever',@reason)
+<<<
+
+
+*:/banq [$player] = >>>
+    if(equals(length($player),0),
+        msg('Query a ban reason.')
+        msg('/banq <playername>')
+    ,#else
+        try(
+            assign(@player,player($player)),
+            @var,
+            assign(@player,$player)
+            msg('User offline. I hope you got their name right.')
+        )
+        _banq(@player)
+    )
+<<<
+
+~Mod/Admin/Operator:/tempban [$player] [$time] [$] = >>>
+    _ban('/tempban',$player,$time,concat('"',$,'"'))
+<<<
+~Mod/Admin/Operator:/jail [$player] [$jail] [$datediff] [$] = >>>
+    _jail('/jail',$player,$jail,$datediff,concat('"',$,'"'))
+<<<
+
+
+~Mod/Admin/Operator:/togglejail [$player] [$jail] [$datediff] [$] = >>>
+    _jail('/togglejail',$player,$jail,$datediff,concat('"',$,'"'))
+<<<
+
+
+*:/jailq $player = >>>
+    if(equals(length($player),0),
+        msg('Query a jail reason.')
+        msg('/jailq <playername>')
+        ,#else 
+        try(
+            assign(@player,player($player)),
+            @var,
+            assign(@player,$player)
+            msg(color(red),'User offline. I hope you got their name right.')
+        ) 
+        _jailq(@player)
+    )
+<<<
+
+
+*:/jailq = >>>
+    assign(@player,player())
+    _jailq(@player)
+<<<
+
+*:/rap $player = >>>
+    _userhist($player)
+<<<
+
+
+
+~Mod/Admin/Operator:/kick [$player] [$] = >>>
+        if(equals(length($),0),
+           assign(@reason,'Kicked: No reason specified.') 
+        ,#else
+            assign(@reason,concat('Kicked:'$))
+        )
+        _kick($player,concat('',@reason,''))
+<<<
+
+######################################################
+#                                                    #
+#  End of Banning and ban recording scripts          #
+#                                                    #
+######################################################
+
+#------------------------------------------------------------------------
+
+######################################################
+#                                                    #
+#  Spleef, minigames and treefarm reset scripts      #
+#                                                    #
+######################################################
+*:/fixspleef = >>>
+
+
+    assign(@cooldown, 60)
+    if(is_null(get_value('spleef1_lastreset')),
+        store_value('spleef1_lastreset',0)
+    )
+
+    
+    assign(@lastreset, get_value('spleef1_lastreset'))
+    if(gt(add(@lastreset, @cooldown), divide(time(),1000)),
+        # then
+        msg(concat('[', Error, ']', ' Less than 5 minutes since last reset.'))
+        assign(@timeleft, subtract(add(@lastreset, @cooldown), divide(time(),1000)))
+        die(concat('[', Error, '] ', @timeleft, ' seconds to go'))
+    )
+    
+
+    store_value('spleef1_lastreset', divide(time(),1000))
+assign(@pinfo, pinfo())
+    _bc(Spleef, concat(array_get(@pinfo,4), ' has just reset the spleef arena with /fixspleef!'))
+
+    sudo('/warp spleef')
+    sudo('/region select spleeffloor')
+    sudo('//replace 00 80')
+    sudo('/back')
+
+
+
+<<<
+
+*:/fixconnect4 = >>>
+
+    assign(@cooldown, 120)
+    if(is_null(get_value('connect4_lastreset')),
+        store_value('connect4_lastreset',0)
+    )
+    assign(@pinfo, pinfo())
+    if(equals(array_get(array_get(@pinfo,9),0), 'default'),
+        die('You do not have permission for this command')
+    )
+    
+    assign(@lastreset, get_value('connect4_lastreset'))
+    if(gt(add(@lastreset, @cooldown), divide(time(),1000)),
+        # then
+        msg(concat('[', Error, ']', ' Less than 2 minutes since last reset.'))
+        assign(@timeleft, subtract(add(@lastreset, @cooldown), divide(time(),1000)))
+        die(concat('[', Error, '] ', @timeleft, ' seconds to go'))
+    )
+    assign(@pinfo, pinfo())
+    _bc(Connect Four, concat(array_get(@pinfo,4), ' has just reset the connect four game with /fixconnect4!'))
+
+    store_value('connect4_lastreset', divide(time(),1000))
+    sudo('/warp connect4')
+    sudo('/region select connect4')
+    sudo('//set 00') 
+    sudo('/region select connect4gravel')
+    sudo('//set 13')
+    sudo('/region select connect4sand')
+    sudo('//set 12')
+    sudo('/back')
+
+<<<
+
+
+
+*:/replant = >>> 
+
+#Ignore the # tags made by DragonDrew :P
+
+
+    # Replant cooldown in seconds, 60 seconds per minute you dumb shit.
+    assign(@cooldown, 300)
+
+
+    # Ensure the persistent variable exists. If it doesn't, set it to 0.
+    if(is_null(get_value('Treefarm1_lastreset')),
+        store_value('treefarm_lastreset',300)
+    )
+
+
+    # Checks to see if user is default.
+    # If not than it tells them to fuck off.
+  #  assign(@pinfo, pinfo())
+  #  if(equals(array_get(array_get(@pinfo,9),0), 'default'),
+  #      die('Ask a mod or Member to replant for you <3')
+  #  )
+    
+    # Get our persistent value
+    assign(@lastreset, get_value('Treefarm_lastreset'))
+
+
+    # Time is in milliseconds nigger, Divide that shit.
+    #if(@lastreset + @cooldown > time() / 1000,
+    #    # then
+    #    msg(concat('[', Error, ']', ' Less than 5 minutes since last replant.'))
+    #    assign(@timeleft, subtract(add(@lastreset, @cooldown), divide(time(),1000)))
+    #    die(concat('[', Error, '] ', @timeleft, ' seconds to go'))
+    #)
+
+
+    # Saves the current time() in Treefarm_lastreset 
+    store_value('Treefarm_lastreset', time() / 1000)
+    assign(@pinfo, pinfo())
+    _bc(Treefarm, concat(array_get(@pinfo,4), ' just replanted the Tree Farm with the /replant command!'))
+
+    # Selects the Farm region, Pastes that shit.
+    sudo('/warp treefarm')
+    sudo('//schem load TreeFarmSchem')
+    sudo('//paste')
+    sudo('/back')
+
+    # Broadcasts to tell the world who is the mother fucking boss.
+<<<
+
+######################################################
+#                                                    #
+#  End of Spleef, minigames and treefarm scripts     #
+#                                                    #
+######################################################
+
+#------------------------------------------------------------------------
+
+######################################################
+#                                                    #
+#  Disabled commands                                 #
+#                                                    #
+######################################################
+
+/banip [$] = die(color(RED)'Due to the way that our Hub proxy works everyone connects via 127.0.0.1 (localhost), so banning a users IP will not allow anyone to join!')
+
+/ebanip [$] = die(color(RED)'Due to the way that our Hub proxy works everyone connects via 127.0.0.1 (localhost), so banning a users IP will not allow anyone to join!')
+
+
+
+
+/spawnmob enderdragon = >>>
+ assign(@pinfo, pinfo())
+    if(not(or(array_contains(@pinfo[9],operator))),
+        die(This command has been disabled!)
+    )
+<<<
+
+/strike = >>>
+ assign(@pinfo, pinfo())
+    if(not(or(array_contains(@pinfo[9],operator))),
+        die('This command has been disabled!')
+    )
+<<<
+
+/killall = die('No, only ever killall in a certain radius, or you will kill peoples friendly mobs')
+/ekillall = msg('No, only ever killall in a certain radius, or you will kill peoples friendly mobs')
+
+/nuke [$] = die(color(red)'No!')
+/enuke [$] = die(color(red)'No!')
+/up [$] = die('No.')
+/ceil [$] = die('No.')
+######################################################
+#                                                    #
+#  End of Disabled commands                          #
+#                                                    #
+######################################################
+
+#------------------------------------------------------------------------
+
+
+
+#YOLOSWAG
